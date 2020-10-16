@@ -12,19 +12,17 @@ class SignInViewModel extends BaseModel {
   String errorMessage;
   String _email;
   String _password;
-  String _displayName;
-  String _role;
 
-  Future signIn({String email, String password, String displayName}) async {
+  Future signIn({String email, String password}) async {
     setState(true);
     var userCreate = await _authService.createUser();
     if (userCreate) {
       setState(true);
-      return await _authService.signUpWithEmail(email: _email, password: _password, displayName: _displayName, role: _role);
+      return await _authService.createUserWithEmailAndPassword(
+          email: _email, password: _password);
     } else {
       setState(false);
       return null;
     }
-
   }
 }

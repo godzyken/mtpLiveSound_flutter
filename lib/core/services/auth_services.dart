@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mtpLiveSound/core/models/user.dart' as user;
@@ -22,7 +21,7 @@ abstract class AuthBase {
 
   Future<void> createUserAnonymous();
 
-  Future<void> signInWithGoogle();
+  Future<String> signInWithGoogle();
 
   Future<void> signOut();
 
@@ -35,14 +34,47 @@ abstract class AuthBase {
   Future<void> checkDisplayName();
 }
 
-class Auth implements AuthBase {
+class AuthService implements AuthBase {
+  final Api _api;
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  AuthService({Api api}) : _api = api;
 
   String name;
   String email;
   String password;
   String imageUrl;
+  var currentUser;
+
+  user.User get _currentUser => currentUser;
+
+  user.User _userFromFirebase(auth.User user) {
+    return user == null ? null : currentUser(uid: user.uid);
+  }
+
+  Stream<user.User> get onAuthStateChanged {
+    _api.streamDataCollection().listen((event) {
+      onAuthStateChanged.forEach((element) {
+        _currentUser;
+      });
+    });
+    return auth.FirebaseAuth.instance
+        .authStateChanges()
+        .map((event) => _userFromFirebase(event));
+  }
+
+  Future createUser({
+    String displayName,
+    String email,
+    String password,
+    String photoUrl,
+    String uid,
+  }) async {
+    await _auth
+        .createUserWithEmailAndPassword(email: email, password: password)
+        .then((value) => login(email: email, password: password));
+  }
 
   @override
   Future<auth.User> getCurrentUser() async {
@@ -62,14 +94,14 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<void> createUserAnonymous() async {
+  Future<String> createUserAnonymous() async {
     await Firebase.initializeApp();
 
     try {
       auth.UserCredential userCredential = await _auth.signInAnonymously();
       print('Users: $userCredential');
       auth.User user = userCredential.user;
-      return user;
+      return user.isAnonymous.toString();
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
       return null;
@@ -102,14 +134,14 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<void> login({String email, String password}) async {
+  Future<String> login({String email, String password}) async {
     await Firebase.initializeApp();
 
     try {
       var userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       auth.User user = userCredential.user;
-      return user;
+      return user.uid;
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
       return null;
@@ -137,7 +169,7 @@ class Auth implements AuthBase {
   }
 
   @override
-  Future<void> signInWithGoogle() async {
+  Future<String> signInWithGoogle() async {
     await Firebase.initializeApp();
 
     try {
@@ -176,9 +208,7 @@ class Auth implements AuthBase {
         final auth.User currentUser = _auth.currentUser;
         assert(user.uid == currentUser.uid);
 
-        print('signInWithGoogle succeeded: $user');
-
-        return '$user';
+        return 'signInSuccess: $user';
       }
     } on PlatformException catch (e) {
       print(e.code);
@@ -233,91 +263,3 @@ class Auth implements AuthBase {
   }
 }
 
-class AuthService {
-  static Auth _auth;
-  final Api _api;
-  var currentUser;
-
-  AuthService({Api api}) : _api = api;
-
-  user.User get _currentUser => currentUser;
-
-  user.User _userFromFirebase(auth.User user) {
-    return user == null ? null : currentUser(uid: user.uid);
-  }
-
-  Stream<user.User> get onAuthStateChanged {
-    _api.streamDataCollection().listen((event) {
-      onAuthStateChanged.forEach((element) {
-        _currentUser;
-      });
-    });
-    return auth.FirebaseAuth.instance
-        .authStateChanges()
-        .map((event) => _userFromFirebase(event));
-  }
-
-  Future loginWithEmail(
-      {@required String email, @required String password}) async {
-    try {
-      var userCredential =
-      await _auth.signInWithEmailAndPassword();
-      var hasUser = userCredential;
-
-      return hasUser;
-    } on auth.FirebaseAuthException catch (e) {
-      print('Error: $e');
-      return e.message;
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
-  Future signUpWithEmail({
-    @required String email,
-    @required String password,
-    @required String displayName,
-    @required String role,
-  }) async {
-    try {
-      var authResult =
-      await _auth.createUserWithEmailAndPassword();
-      return authResult;
-    } catch (e) {
-      return e.message;
-    }
-  }
-
-  Future createUser({
-    String displayName,
-    String email,
-    String password,
-    String photoUrl,
-    String uid,
-  }) async {
-    await _auth
-        .createUserWithEmailAndPassword()
-        .then((value) => _auth.login(email: email, password: password));
-  }
-
-  Future createUserAnonymous() async {
-    final user = await _auth.createUserAnonymous();
-    return user;
-  }
-
-  Future loginUser({String email, String password}) async {
-    if (password != null) {
-      this.currentUser = {'email', email};
-      await _auth.login();
-      return Future.value(currentUser);
-    } else {
-      this.currentUser = null;
-      return Future.value(null);
-    }
-  }
-
-  Future signInWithGoogle() async {
-    final user = await _auth.signInWithGoogle();
-    return user;
-  }
-}

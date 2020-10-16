@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mtpLiveSound/core/services/sign_in.dart';
 import 'package:mtpLiveSound/core/viewmodels/views/home_model.dart';
 import 'package:mtpLiveSound/ui/shared/app_colors.dart';
 import 'package:mtpLiveSound/ui/widgets/postlist_item.dart';
 
 import 'base_page.dart';
-
+import 'login_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -103,6 +104,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
+              RaisedButton(
+                onPressed: () {
+                  signOutGoogle();
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) {
+                        return LoginPage();
+                      }), ModalRoute.withName('/'));
+                },
+                color: Colors.deepPurple,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Sign Out',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                ),
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+              )
             ],
           ),
         ),

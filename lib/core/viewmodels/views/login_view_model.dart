@@ -20,13 +20,13 @@ class LoginViewModel extends BaseModel {
 
   Future login({String email, String password}) async {
     setState(true);
-    var result = await _authenticationService.loginWithEmail(
+    var result = await _authenticationService.login(
       email: _email,
       password: _password,
     );
 
     if (result is bool) {
-      if (result) {
+      if (result != null) {
         setState(true);
         _navigationService.navigateTo('home');
       } else {
@@ -83,9 +83,23 @@ class LoginViewModel extends BaseModel {
 
     var success = await _authenticationService.signInWithGoogle();
 
-    // Handle potential error here too.
-
-    setState(false);
-    return success;
+    if (success is bool) {
+      if (success != null) {
+        setState(true);
+        _navigationService.navigateTo('home');
+      } else {
+        setState(false);
+        await _dialogService.showDialog(
+          title: 'Login Failure',
+          description: 'General login failure. Please try again later',
+        );
+      }
+    } else {
+      await _dialogService.showDialog(
+        title: 'Login Failure',
+        description: success,
+      );
+      setState(false);
+    }
   }
 }

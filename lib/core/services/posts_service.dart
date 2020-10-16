@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:mtpLiveSound/core/constants/app_constants.dart';
 import 'package:mtpLiveSound/core/models/post.dart';
 

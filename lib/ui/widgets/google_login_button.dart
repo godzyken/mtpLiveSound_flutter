@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mtpLiveSound/core/services/auth_services.dart';
+import 'package:mtpLiveSound/ui/pages/home_page.dart';
+import 'package:provider/provider.dart';
 
+//Test OK
 class GoogleLoginButton extends StatefulWidget {
   @override
   _GoogleLoginButtonState createState() => _GoogleLoginButtonState();
@@ -8,21 +11,24 @@ class GoogleLoginButton extends StatefulWidget {
 
 class _GoogleLoginButtonState extends State<GoogleLoginButton> {
   bool _isProcessing = false;
-  final AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AuthService>(context);
     return OutlineButton(
-      onPressed: () async {
+      onPressed: () {
         _isProcessing = true;
-
-        var connected = await authService.signInWithGoogle();
-        if (connected != null) {
-          Navigator.pushNamed(context, 'home');
-        } else {
-          print('Error: $connected');
-          _isProcessing = false;
-        }
+        user.signInWithGoogle().then((result) {
+          if (result != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return MyHomePage();
+                },
+              ),
+            );
+          }
+        });
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(45)),
       splashColor: Colors.grey,
