@@ -16,6 +16,8 @@ class PostListItem extends StatelessWidget {
           return GestureDetector(
             onTap: onTap,
             child: Container(
+              height: 0.0,
+              width: 0.0,
               margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
@@ -33,7 +35,7 @@ class PostListItem extends StatelessWidget {
                   Text(
                     "${this.post.id}",
                     style:
-                        TextStyle(fontWeight: FontWeight.w900, fontSize: 16.0),
+                    TextStyle(fontWeight: FontWeight.w900, fontSize: 16.0),
                   ),
                   Text(this.post.body, maxLines: 2, overflow: TextOverflow.ellipsis)
                 ],

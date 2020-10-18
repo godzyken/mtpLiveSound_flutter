@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mtpLiveSound/core/services/api.dart';
 import 'package:mtpLiveSound/core/services/auth_services.dart';
@@ -25,4 +23,9 @@ List<SingleChildWidget> uiConsumableProviders = [
     create: (context) =>
     Provider.of<AuthService>(context, listen: false).currentUser,
   ),
+/*  StreamProvider<QuerySnapshot>(
+    lazy: false,
+    create: (context) =>
+    Provider.of<DatabaseService>(context, listen: false).posts,
+  )*/
 ];

@@ -11,13 +11,14 @@ import 'api.dart';
 abstract class AuthBase {
   Future<auth.User> getCurrentUser();
 
-  Future<void> checkAuth();
+  Future<String> checkAuth();
 
-  Future<void> createUserWithEmailAndPassword({String email, String password});
+  Future<String> createUserWithEmailAndPassword(
+      {String email, String password});
 
-  Future<void> login({String email, String password});
+  Future<String> login({String email, String password});
 
-  Future<void> signInWithEmailAndPassword({String email, String password});
+  Future<String> signInWithEmailAndPassword({String email, String password});
 
   Future<void> createUserAnonymous();
 
@@ -83,13 +84,15 @@ class AuthService implements AuthBase {
   }
 
   @override
-  Future<void> checkAuth() async {
+  Future<String> checkAuth() async {
     await Firebase.initializeApp();
 
     if (_auth.currentUser != null) {
       print('Already Signed in !');
+      return _currentUser.uid;
     } else {
       print('Signed Out');
+      return null;
     }
   }
 
@@ -109,7 +112,7 @@ class AuthService implements AuthBase {
   }
 
   @override
-  Future<void> createUserWithEmailAndPassword(
+  Future<String> createUserWithEmailAndPassword(
       {String email, String password}) async {
     await Firebase.initializeApp();
 
@@ -149,7 +152,7 @@ class AuthService implements AuthBase {
   }
 
   @override
-  Future<void> signInWithEmailAndPassword(
+  Future<String> signInWithEmailAndPassword(
       {String email, String password}) async {
     await Firebase.initializeApp();
 

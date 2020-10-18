@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mtpLiveSound/core/services/sign_in.dart';
 import 'package:mtpLiveSound/core/viewmodels/views/home_model.dart';
+import 'package:mtpLiveSound/ui/pages/login_page.dart';
 import 'package:mtpLiveSound/ui/shared/app_colors.dart';
-import 'package:mtpLiveSound/ui/widgets/postlist_item.dart';
 
 import 'base_page.dart';
-import 'login_page.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -17,8 +17,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    CollectionReference posts = FirebaseFirestore.instance.collection('posts');
     return BasePage<HomeModel>(
-      builder: (context, model, child) => new Scaffold(
+      builder: (context, model, child) =>
+      new Scaffold(
         extendBody: true,
         appBar: new AppBar(
           title: new Text('MTP live App'),
@@ -52,8 +54,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (asyncSnapshot.connectionState ==
                                 ConnectionState.active) {
                               var data = asyncSnapshot.data;
-                              print("Watt is in: ${data.uid}");
-                              return Text("Full Name: ${data.displayName}");
+                              return Text(
+                                "Full Name: ${data.displayName}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              );
                             }
                             return Text('loading...');
                           },
@@ -73,30 +80,30 @@ class _MyHomePageState extends State<MyHomePage> {
                     Expanded(
                       child: SizedBox(
                         height: 200.0,
-                        child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('users')
-                              .doc('userId')
-                              .collection('posts')
-                              .orderBy('create_at')
-                              .snapshots(),
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: posts.snapshots(includeMetadataChanges: true),
                           builder: (BuildContext context,
                               AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (!snapshot.hasData) {
-                              return Center(child: CircularProgressIndicator());
-                            } else if (snapshot.connectionState ==
-                                ConnectionState.active) {
-                              return ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  physics: ScrollPhysics(),
-                                  itemCount: snapshot.data.docs.length,
-                                  itemBuilder: (context, index) => PostListItem());
-                            } else if (snapshot.hasError) {
-                              return Text('Snapshot has Error: ${snapshot.error}');
-                            } else {
-                              return Text('Fetching...');
+                            if (snapshot.hasError) {
+                              return Text('Something went wrong');
                             }
+
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Text("Loading");
+                            }
+
+                            if (!snapshot.hasData) {
+                              return Text("No data");
+                            }
+                            return new ListView(
+                              children: snapshot.data.docs
+                                  .map((DocumentSnapshot document) {
+                                return new ListTile(
+                                  title: new Text(document.data()['title']),
+                                );
+                              }).toList(),
+                            );
                           },
                         ),
                       ),

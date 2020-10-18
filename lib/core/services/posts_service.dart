@@ -2,13 +2,13 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:mtpLiveSound/core/constants/app_constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mtpLiveSound/core/models/post.dart';
 
 import 'api.dart';
 
 class PostsService {
-  final StorageReference storageReference = FirebaseStorage().ref().child(RoutePaths.Post);
+  final FirebaseFirestore storageReference = FirebaseFirestore.instance;
 
   Api _api;
 
@@ -18,13 +18,12 @@ class PostsService {
 
   Future<List<Post>> getPostsForUser() async {
     var result = await _api.getDataCollection();
-    posts = result.docs
-    .map((doc) => Post.fromMap(doc.data(), doc.id))
-    .toList();
+    posts = result.docs.map((doc) => Post.fromMap(doc.data(), doc.id)).toList();
 
-    final StorageUploadTask uploadTask = storageReference.putData(data);
-    final StreamSubscription<StorageTaskEvent> streamSubscription = uploadTask.events.listen((event) {
-
+    final FirebaseFirestore uploadTask =
+        storageReference.collection('posts').firestore;
+    final StreamSubscription<PostsService> streamSubscription =
+        uploadTask.events.listen((event) {
       print('EVENT ${event.type}');
     });
 
