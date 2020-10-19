@@ -13,15 +13,14 @@ List<SingleChildWidget> independentServices = [
   Provider.value(value: Api()),
 ];
 List<SingleChildWidget> dependentServices = [
-  ProxyProvider<Api, AuthService>(
-    update: (context, api, authService) => AuthService(api: api),
+  ProxyProvider<Api, Auth>(
+    update: (context, api, authService) => Auth(),
   ),
 ];
 List<SingleChildWidget> uiConsumableProviders = [
   StreamProvider<User>(
     lazy: false,
-    create: (context) =>
-    Provider.of<AuthService>(context, listen: false).currentUser,
+    create: (context) => Provider.of<Auth>(context, listen: false).currentUser,
   ),
 /*  StreamProvider<QuerySnapshot>(
     lazy: false,

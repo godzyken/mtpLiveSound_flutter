@@ -23,11 +23,11 @@ class PostsService {
     final FirebaseFirestore uploadTask =
         storageReference.collection('posts').firestore;
     final StreamSubscription<PostsService> streamSubscription =
-        uploadTask.events.listen((event) {
-      print('EVENT ${event.type}');
+        uploadTask.snapshotsInSync().listen((event) {
+      print('EVENT $posts');
     });
 
-    await uploadTask.onComplete;
+    uploadTask.terminate();
     streamSubscription.cancel();
 
     return posts;

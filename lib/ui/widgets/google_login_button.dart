@@ -14,7 +14,7 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AuthService>(context);
+    final user = Provider.of<Auth>(context);
     return OutlineButton(
       onPressed: () {
         _isProcessing = true;

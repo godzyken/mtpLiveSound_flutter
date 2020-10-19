@@ -8,15 +8,14 @@ import 'package:mtpLiveSound/core/services/auth_services.dart';
 import 'file:///C:/Users/isgod/StudioProjects/mtp_live/lib/core/viewmodels/views/base_model.dart';
 
 class HomeModel extends BaseModel {
-  final AuthService _authService;
-  final  Api _api;
+  final Auth _authService;
+  final Api _api;
 
   HomeModel({
-    @required AuthService authService,
+    @required Auth authService,
     @required Api api,
   })  : _authService = authService,
         _api = api;
-
 
   List<User> users;
 
@@ -37,5 +36,8 @@ class HomeModel extends BaseModel {
     return Post.fromMap(doc.data(), doc.id);
   }
 
+  signOut() {
+    return _authService.signOut();
+  }
 
 }

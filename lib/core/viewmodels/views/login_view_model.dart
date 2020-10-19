@@ -6,12 +6,12 @@ import 'package:mtpLiveSound/core/viewmodels/views/base_model.dart';
 
 
 class LoginViewModel extends BaseModel {
-  final AuthService _authenticationService;
+  final Auth _authenticationService;
   DialogService _dialogService;
   NavigationService _navigationService;
 
   LoginViewModel({
-    @required AuthService authenticationService,
+    @required Auth authenticationService,
   }) : _authenticationService = authenticationService;
 
   String errorMessage;

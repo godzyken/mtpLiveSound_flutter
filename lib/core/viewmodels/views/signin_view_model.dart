@@ -3,11 +3,10 @@ import 'package:mtpLiveSound/core/services/auth_services.dart';
 import 'package:mtpLiveSound/core/viewmodels/views/base_model.dart';
 
 class SignInViewModel extends BaseModel {
-  final AuthService _authService;
+  final Auth _authService;
 
-  SignInViewModel({
-    @required AuthService authenticationService
-}) : _authService = authenticationService;
+  SignInViewModel({@required Auth authenticationService})
+      : _authService = authenticationService;
 
   String errorMessage;
   String _email;

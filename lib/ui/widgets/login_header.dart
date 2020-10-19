@@ -37,7 +37,7 @@ class LoginTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AuthService>(context);
+    final user = Provider.of<Auth>(context);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -65,7 +65,7 @@ class PassTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AuthService>(context);
+    final user = Provider.of<Auth>(context);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.0),

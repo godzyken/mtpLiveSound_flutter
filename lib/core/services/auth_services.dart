@@ -6,8 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mtpLiveSound/core/models/user.dart' as user;
 
-import 'api.dart';
-
 abstract class AuthBase {
   Future<auth.User> getCurrentUser();
 
@@ -35,12 +33,10 @@ abstract class AuthBase {
   Future<void> checkDisplayName();
 }
 
-class AuthService implements AuthBase {
-  final Api _api;
+class Auth implements AuthBase {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-
-  AuthService({Api api}) : _api = api;
+  auth.User _user;
 
   String name;
   String email;
@@ -49,21 +45,6 @@ class AuthService implements AuthBase {
   var currentUser;
 
   user.User get _currentUser => currentUser;
-
-  user.User _userFromFirebase(auth.User user) {
-    return user == null ? null : currentUser(uid: user.uid);
-  }
-
-  Stream<user.User> get onAuthStateChanged {
-    _api.streamDataCollection().listen((event) {
-      onAuthStateChanged.forEach((element) {
-        _currentUser;
-      });
-    });
-    return auth.FirebaseAuth.instance
-        .authStateChanges()
-        .map((event) => _userFromFirebase(event));
-  }
 
   Future createUser({
     String displayName,
@@ -79,8 +60,8 @@ class AuthService implements AuthBase {
 
   @override
   Future<auth.User> getCurrentUser() async {
-    auth.User user = _auth.currentUser;
-    return user;
+    _user = _auth.currentUser;
+    return _user;
   }
 
   @override
@@ -103,8 +84,8 @@ class AuthService implements AuthBase {
     try {
       auth.UserCredential userCredential = await _auth.signInAnonymously();
       print('Users: $userCredential');
-      auth.User user = userCredential.user;
-      return user.isAnonymous.toString();
+      _user = userCredential.user;
+      return _user.isAnonymous.toString();
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
       return null;
@@ -120,9 +101,9 @@ class AuthService implements AuthBase {
       auth.UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
       print('Users: $userCredential');
-      auth.User user = userCredential.user;
+      _user = userCredential.user;
 
-      return user.uid;
+      return _user.uid;
     } on auth.FirebaseAuthException catch (e) {
       if (e.code == 'week-password') {
         print('Error: password is to weak');
@@ -143,8 +124,8 @@ class AuthService implements AuthBase {
     try {
       var userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      auth.User user = userCredential.user;
-      return user.uid;
+      _user = userCredential.user;
+      return _user.uid;
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
       return null;
@@ -161,8 +142,8 @@ class AuthService implements AuthBase {
           .signInWithEmailAndPassword(email: email, password: password);
       print('Users: $userCredential');
 
-      auth.User user = userCredential.user;
-      return user.uid;
+      _user = userCredential.user;
+      return _user.uid;
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
     } catch (e) {
@@ -188,30 +169,30 @@ class AuthService implements AuthBase {
 
       final auth.UserCredential authResult =
           await _auth.signInWithCredential(credential);
-      final auth.User user = authResult.user;
+      final _user = authResult.user;
 
-      if (user != null) {
-        assert(user.email != null);
-        assert(user.displayName != null);
-        assert(user.photoURL != null);
+      if (_user != null) {
+        assert(_user.email != null);
+        assert(_user.displayName != null);
+        assert(_user.photoURL != null);
 
         // Store the retrieved data
-        name = user.displayName;
-        email = user.email;
-        imageUrl = user.photoURL;
+        name = _user.displayName;
+        email = _user.email;
+        imageUrl = _user.photoURL;
 
         // Only taking the first part of the name, i.e., First Name
         if (name.contains(" ")) {
           name = name.substring(0, name.indexOf(" "));
         }
 
-        assert(!user.isAnonymous);
-        assert(await user.getIdToken() != null);
+        assert(!_user.isAnonymous);
+        assert(await _user.getIdToken() != null);
 
         final auth.User currentUser = _auth.currentUser;
-        assert(user.uid == currentUser.uid);
+        assert(_user.uid == currentUser.uid);
 
-        return 'signInSuccess: $user';
+        return 'signInSuccess: $_user';
       }
     } on PlatformException catch (e) {
       print(e.code);
@@ -221,48 +202,46 @@ class AuthService implements AuthBase {
     return GoogleSignIn != null ?? 'Google Sign in Success';
   }
 
+  //TODO voir pourquoi noSuchMethodError was thrown while handling a gesture
+  //the method 'signOut' was xa
   @override
-  Future<void> signOut() async {
-    await Firebase.initializeApp();
-    try {
-      await auth.FirebaseAuth.instance.signOut();
-      print("success signOut =====>");
-    } catch (e) {
-      print(e.toString());
-    }
-    await _auth.signOut();
+  signOut() async {
     await googleSignIn.signOut();
+    await _auth.signOut();
+
+    print("User Signed Out: $_user");
   }
 
   @override
   Future<void> checkDisplayName() async {
     await Firebase.initializeApp();
 
-    auth.User user = auth.FirebaseAuth.instance.currentUser;
-    print(user.displayName);
+    _user = _auth.currentUser;
+    print(_user.displayName);
   }
 
   @override
   Future<void> setDisplayName() async {
     await Firebase.initializeApp();
 
-    auth.User user = auth.FirebaseAuth.instance.currentUser;
-    user.updateProfile(displayName: name);
+    _user = _auth.currentUser;
+    _user.updateProfile(displayName: name);
   }
 
   @override
   Future<void> verifyEmail() async {
     await Firebase.initializeApp();
 
-    auth.User user = auth.FirebaseAuth.instance.currentUser;
-    user.sendEmailVerification();
+    _user = _auth.currentUser;
+    _user.sendEmailVerification();
   }
 
   @override
   Future<void> resetPassword() async {
     await Firebase.initializeApp();
 
-    await auth.FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    await _auth.sendPasswordResetEmail(email: email);
   }
 }
 
+final Auth authService = Auth();
