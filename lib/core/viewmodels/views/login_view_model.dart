@@ -18,6 +18,20 @@ class LoginViewModel extends BaseModel {
   String _email;
   String _password;
 
+  get email => _email;
+
+  get password => _password;
+
+  set email(String email) {
+    _email = email;
+    notifyListeners();
+  }
+
+  set password(String password) {
+    _password = password;
+    notifyListeners();
+  }
+
   Future login({String email, String password}) async {
     setState(true);
     var result = await _authenticationService.login(

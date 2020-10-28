@@ -18,24 +18,25 @@ class InputField extends StatefulWidget {
   final FocusNode nextFocusNode;
   final TextInputAction textInputAction;
   final String additionalNote;
-  final Function(String) onChanged;
+  final Function(String) onChanged, onSaved;
   final TextInputFormatter formatter;
 
   InputField(
       {@required this.controller,
-        @required this.placeholder,
-        this.enterPressed,
-        this.fieldFocusNode,
-        this.nextFocusNode,
-        this.additionalNote,
-        this.onChanged,
-        this.formatter,
-        this.validationMessage,
-        this.textInputAction = TextInputAction.next,
-        this.textInputType = TextInputType.text,
-        this.password = false,
-        this.isReadOnly = false,
-        this.smallVersion = false});
+      @required this.placeholder,
+      this.enterPressed,
+      this.fieldFocusNode,
+      this.nextFocusNode,
+      this.additionalNote,
+      this.onChanged,
+      this.onSaved,
+      this.formatter,
+      this.validationMessage,
+      this.textInputAction = TextInputAction.next,
+      this.textInputType = TextInputType.text,
+      this.password = false,
+      this.isReadOnly = false,
+      this.smallVersion = false});
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -71,8 +72,10 @@ class _InputFieldState extends State<InputField> {
                   focusNode: widget.fieldFocusNode,
                   textInputAction: widget.textInputAction,
                   onChanged: widget.onChanged,
-                  inputFormatters:
-                  widget.formatter != null ? [widget.formatter] : null,
+                  onSaved: widget.onSaved,
+                  inputFormatters: widget.formatter != null
+                      ? [widget.formatter]
+                      : null,
                   onEditingComplete: () {
                     if (widget.enterPressed != null) {
                       FocusScope.of(context).requestFocus(FocusNode());

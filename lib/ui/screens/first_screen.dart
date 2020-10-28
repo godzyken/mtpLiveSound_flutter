@@ -1,100 +1,81 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/services/auth_services.dart';
-import 'package:mtpLiveSound/ui/pages/home_page.dart';
-import 'package:mtpLiveSound/ui/pages/login_page.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mtpLiveSound/core/services/api.dart';
 
+class FirstScreen extends StatefulWidget {
+  FirstScreen({Key key, this.title}) : super(key: key);
+  final String title;
 
-class FirstScreen extends StatelessWidget {
+  @override
+  _FirstScreenState createState() => _FirstScreenState();
+}
+
+class _FirstScreenState extends State<FirstScreen> {
+  File _image;
+  Uint8List _imageBytes;
+  final picker = ImagePicker();
+  CloudApi api;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    rootBundle.loadString('credentials.json').then((json) {
+      api = CloudApi(json);
+    });
+  }
+
+  void _getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    print(pickedFile.path);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        _imageBytes = _image.readAsBytesSync();
+      } else {
+        print('No image selected');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    return MaterialApp(
-      title: 'SplashScreen',
-      home: FutureBuilder(
-        future: Provider.of<AuthService>(context).currentUser(),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return snapshot.hasData ? MyHomePage() : LoginPage();
-          } else {
-            return Container(
-                color: Colors.blue,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [Colors.blue[100], Colors.blue[400]],
-                  ),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          snapshot.data,
-                        ),
-                        radius: 60,
-                        backgroundColor: Colors.transparent,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+          child: _imageBytes == null
+              ? Text('No Image selected')
+              : Stack(
+                  children: [
+                    Image.memory(_imageBytes),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FlatButton(
+                        color: Colors.blueAccent,
+                        textColor: Colors.white,
+                        onPressed: _saveImage,
+                        child: Text('Save to cloud'),
                       ),
-                      SizedBox(height: 40),
-                      Text(
-                        'NAME',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54),
-                      ),
-                      Text(
-                        snapshot.data,
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        'EMAIL',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54),
-                      ),
-                      Text(
-                        snapshot.data,
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 40),
-                      RaisedButton(
-                        onPressed: () {
-                          _signOut();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) {
-                            return LoginPage();
-                          }), ModalRoute.withName('/'));
-                        },
-                        color: Colors.deepPurple,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Sign Out',
-                            style: TextStyle(fontSize: 25, color: Colors.white),
-                          ),
-                        ),
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40)),
-                      )
-                    ],
-                  ),
-                ));
-          }
-        },
+                    )
+                  ],
+                )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _getImage,
+        tooltip: 'Select image',
+        child: Icon(Icons.add_a_photo),
       ),
     );
+  }
+
+  void _saveImage() async {
+    final response = await api.save('test', _imageBytes);
+    print(response.downloadLink);
   }
 }

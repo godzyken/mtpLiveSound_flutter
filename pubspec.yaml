@@ -37,6 +37,11 @@ dependencies:
   firebase_auth: ^0.18.1+2
   provider: ^4.3.2+2
   firebase_admob: ^0.10.0+2
+  gcloud: ^0.7.3
+  googleapis_auth: ^0.2.12
+  image_picker: ^0.6.7+12
+  mime: ^0.9.7
+  rxdart: ^0.24.1
 
 dev_dependencies:
   flutter_test:

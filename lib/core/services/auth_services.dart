@@ -83,9 +83,8 @@ class Auth implements AuthBase {
 
     try {
       auth.UserCredential userCredential = await _auth.signInAnonymously();
-      print('Users: $userCredential');
       _user = userCredential.user;
-      return _user.isAnonymous.toString();
+      return _user.uid;
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
       return null;

@@ -42,11 +42,17 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 InputField(
                   placeholder: 'Email',
+                  onSaved: (String email) {
+                    model.email = email.isNotEmpty.toString();
+                  },
                   controller: emailController,
                 ),
                 UIHelper.verticalSpaceSmall,
                 InputField(
                   placeholder: 'Password',
+                  onSaved: (String password) {
+                    model.password = password.isNotEmpty.toString();
+                  },
                   password: true,
                   controller: passwordController,
                 ),
