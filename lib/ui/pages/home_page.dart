@@ -19,8 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     CollectionReference posts = FirebaseFirestore.instance.collection('posts');
     return BasePage<HomeModel>(
-      builder: (context, model, child) =>
-      new Scaffold(
+      builder: (context, model, child) => new Scaffold(
         extendBody: true,
         appBar: new AppBar(
           title: new Text('MTP live App'),
@@ -54,13 +53,23 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (asyncSnapshot.connectionState ==
                                 ConnectionState.active) {
                               var data = asyncSnapshot.data;
-                              return Text(
-                                "Full Name: ${data.displayName}",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              );
+                              if (data.isAnonymous) {
+                                return Text(
+                                  "Tenant ID : ${data.uid}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  "Display Name : ${data.displayName}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                );
+                              }
                             }
                             return Text('loading...');
                           },

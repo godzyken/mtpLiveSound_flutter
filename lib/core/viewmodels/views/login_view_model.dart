@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mtpLiveSound/core/services/auth_services.dart';
 import 'package:mtpLiveSound/core/services/dialog_service.dart';
@@ -17,10 +18,18 @@ class LoginViewModel extends BaseModel {
   String errorMessage;
   String _email;
   String _password;
+  String _success;
 
   get email => _email;
 
   get password => _password;
+
+  get success => _success;
+
+  set success(String success) {
+    _success = success;
+    notifyListeners();
+  }
 
   set email(String email) {
     _email = email;
@@ -32,7 +41,7 @@ class LoginViewModel extends BaseModel {
     notifyListeners();
   }
 
-  Future login({String email, String password}) async {
+  login({String email, String password}) async {
     setState(true);
     var result = await _authenticationService.login(
       email: _email,
@@ -77,14 +86,14 @@ class LoginViewModel extends BaseModel {
     return success;
   }
 
-  Future ghostMode() async {
+  ghostMode() async {
     setState(true);
 
-    var success = await _authenticationService.createUserAnonymous();
-    if (success != null) {
+    _success = await _authenticationService.createUserAnonymous();
+    if (_success != null) {
       setState(true);
       print('Success to connect the ghost Mode... $success');
-      return success;
+      return _success;
     } else {
       setState(false);
       print('Error to connect $success');
