@@ -92,16 +92,15 @@ class _LoginPageState extends State<LoginPage> {
                             title: 'Login',
                             busy: model.state,
                             onPressed: () async {
-                              var loginSuccess = await model.login(
-                                  email: model.email, password: model.password);
-                              if (loginSuccess != null) {
-                                print(
-                                    'Wats happen to login with mail : $loginSuccess');
-                                Navigator.pushNamed(context, 'home');
-                              } else {
-                                return 'Error for that field';
-                              }
-                            },
+                              var loginSuccess = await model.login();
+                          if (loginSuccess != null) {
+                            print(
+                                'Wats happen to login with mail : $loginSuccess');
+                            Navigator.pushNamed(context, 'home');
+                          } else {
+                            return 'Error for that field';
+                          }
+                        },
                           ),
 
                           BusyButton(

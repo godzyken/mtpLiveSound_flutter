@@ -121,14 +121,35 @@ class Auth implements AuthBase {
     await Firebase.initializeApp();
 
     try {
-      var userCredential = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      _user = userCredential.user;
-      return _user.uid;
+      final auth.UserCredential userCredential = await _auth
+          .signInWithEmailAndPassword(email: email, password: password);
+      final _user = userCredential.user;
+      if (_user != null) {
+        assert(_user.email != null);
+        assert(_user.displayName != null);
+
+        // Store the retrieved data
+        name = _user.displayName;
+        email = _user.email;
+
+        // Only taking the first part of the name, i.e., First Name
+        if (name.contains(" ")) {
+          name = name.substring(0, name.indexOf(" "));
+        }
+
+        assert(!_user.isAnonymous);
+        assert(await _user.getIdToken() != null);
+
+        final auth.User currentUser = _auth.currentUser;
+        assert(_user.uid == currentUser.uid);
+
+        return 'signInSuccess: $_user';
+      }
     } on auth.FirebaseAuthException catch (e) {
       print('Error: $e');
       return null;
     }
+    return login != null ?? 'Login in Success';
   }
 
   @override
