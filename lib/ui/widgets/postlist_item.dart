@@ -37,7 +37,8 @@ class PostListItem extends StatelessWidget {
                     style:
                     TextStyle(fontWeight: FontWeight.w900, fontSize: 16.0),
                   ),
-                  Text(this.post.body, maxLines: 2, overflow: TextOverflow.ellipsis)
+                  Text(this.post.title,
+                      maxLines: 2, overflow: TextOverflow.ellipsis)
                 ],
               ),
             ),

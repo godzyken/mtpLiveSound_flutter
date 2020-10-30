@@ -43,13 +43,13 @@ class LoginViewModel extends BaseModel {
 
   login({String email, String password}) async {
     setState(true);
-    var result = await _authenticationService.login(
+    _success = await _authenticationService.login(
       email: _email,
       password: _password,
     );
 
-    if (result is bool) {
-      if (result != null) {
+    if (_success is bool) {
+      if (_success != null) {
         setState(true);
         _navigationService.navigateTo('home');
       } else {
@@ -62,7 +62,7 @@ class LoginViewModel extends BaseModel {
     } else {
       await _dialogService.showDialog(
         title: 'Login Failure',
-        description: result,
+        description: _success,
       );
       setState(false);
     }
