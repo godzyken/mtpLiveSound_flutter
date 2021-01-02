@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
-import 'package:mtpLiveSound/core/models/post.dart';
-import 'package:mtpLiveSound/core/services/api.dart';
+import 'package:mtp_live_sound/core/models/post.dart';
+import 'package:mtp_live_sound/core/services/api.dart';
 
 import '../views/base_model.dart';
 

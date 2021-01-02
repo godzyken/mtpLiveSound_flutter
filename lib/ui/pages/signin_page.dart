@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/viewmodels/views/signin_view_model.dart';
-import 'package:mtpLiveSound/ui/shared/app_colors.dart';
+import 'package:mtp_live_sound/core/viewmodels/views/signin_view_model.dart';
+import 'package:mtp_live_sound/ui/shared/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import 'base_page.dart';

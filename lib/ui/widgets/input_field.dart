@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mtpLiveSound/ui/shared/text_styles.dart';
-import 'package:mtpLiveSound/ui/shared/ui_helpers.dart';
+import 'package:mtp_live_sound/ui/shared/text_styles.dart';
+import 'package:mtp_live_sound/ui/shared/ui_helpers.dart';
 
 import 'note_text.dart';
 

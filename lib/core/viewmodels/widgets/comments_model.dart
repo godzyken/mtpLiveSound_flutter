@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:mtpLiveSound/core/models/comment.dart';
-import 'package:mtpLiveSound/core/services/api.dart';
+import 'package:mtp_live_sound/core/models/comment.dart';
+import 'package:mtp_live_sound/core/services/api.dart';
 
 import '../views/base_model.dart';
 

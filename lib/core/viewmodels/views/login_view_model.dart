@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mtpLiveSound/core/services/auth_services.dart';
-import 'package:mtpLiveSound/core/services/dialog_service.dart';
-import 'package:mtpLiveSound/core/services/navigation_service.dart';
-import 'package:mtpLiveSound/core/viewmodels/views/base_model.dart';
+import 'package:mtp_live_sound/core/services/auth_services.dart';
+import 'package:mtp_live_sound/core/services/dialog_service.dart';
+import 'package:mtp_live_sound/core/services/navigation_service.dart';
+import 'package:mtp_live_sound/core/viewmodels/views/base_model.dart';
 
 
 class LoginViewModel extends BaseModel {

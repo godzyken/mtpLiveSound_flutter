@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mtpLiveSound/core/models/post.dart';
+import 'package:mtp_live_sound/core/models/post.dart';
 
 import 'api.dart';
 

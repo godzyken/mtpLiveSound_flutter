@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/services/sign_in.dart';
-import 'package:mtpLiveSound/core/viewmodels/views/home_model.dart';
-import 'package:mtpLiveSound/ui/pages/login_page.dart';
-import 'package:mtpLiveSound/ui/shared/app_colors.dart';
+import 'package:mtp_live_sound/core/services/sign_in.dart';
+import 'package:mtp_live_sound/ui/pages/login_page.dart';
+import 'package:mtp_live_sound/ui/shared/app_colors.dart';
+import 'package:mtp_live_sound/core/viewmodels/views/home_model.dart';
+
 
 import 'base_page.dart';
 

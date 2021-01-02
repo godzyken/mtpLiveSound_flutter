@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/viewmodels/views/login_view_model.dart';
-import 'package:mtpLiveSound/ui/shared/app_colors.dart';
-import 'package:mtpLiveSound/ui/shared/ui_helpers.dart';
-import 'package:mtpLiveSound/ui/widgets/busy_button.dart';
-import 'package:mtpLiveSound/ui/widgets/google_login_button.dart';
-import 'package:mtpLiveSound/ui/widgets/input_field.dart';
-import 'package:mtpLiveSound/ui/widgets/text_link.dart';
+import 'package:mtp_live_sound/core/viewmodels/views/login_view_model.dart';
+import 'package:mtp_live_sound/ui/shared/app_colors.dart';
+import 'package:mtp_live_sound/ui/shared/ui_helpers.dart';
+import 'package:mtp_live_sound/ui/widgets/busy_button.dart';
+import 'package:mtp_live_sound/ui/widgets/google_login_button.dart';
+import 'package:mtp_live_sound/ui/widgets/input_field.dart';
+import 'package:mtp_live_sound/ui/widgets/text_link.dart';
 import 'package:provider/provider.dart';
 
 import 'base_page.dart';

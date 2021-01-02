@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/constants/app_constants.dart';
-import 'package:mtpLiveSound/core/models/post.dart';
-import 'package:mtpLiveSound/ui/pages/home_page.dart';
-import 'package:mtpLiveSound/ui/pages/landing_page.dart';
-import 'package:mtpLiveSound/ui/pages/login_page.dart';
-import 'package:mtpLiveSound/ui/pages/post_view.dart';
-import 'package:mtpLiveSound/ui/pages/signin_page.dart';
-import 'package:mtpLiveSound/ui/widgets/postlist_item.dart';
+import 'package:mtp_live_sound/core/constants/app_constants.dart';
+import 'package:mtp_live_sound/core/models/post.dart';
+import 'package:mtp_live_sound/ui/pages/home_page.dart';
+import 'package:mtp_live_sound/ui/pages/landing_page.dart';
+import 'package:mtp_live_sound/ui/pages/login_page.dart';
+import 'package:mtp_live_sound/ui/pages/post_view.dart';
+import 'package:mtp_live_sound/ui/pages/signin_page.dart';
+import 'package:mtp_live_sound/ui/widgets/postlist_item.dart';
 
 
 const String initialRoute = "/";

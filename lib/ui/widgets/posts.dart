@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/constants/app_constants.dart';
-import 'package:mtpLiveSound/core/viewmodels/widgets/posts_model.dart';
-import 'package:mtpLiveSound/ui/pages/base_page.dart';
-import 'package:mtpLiveSound/ui/widgets/postlist_item.dart';
+import 'package:mtp_live_sound/core/constants/app_constants.dart';
+import 'package:mtp_live_sound/core/viewmodels/widgets/posts_model.dart';
+import 'package:mtp_live_sound/ui/pages/base_page.dart';
+import 'package:mtp_live_sound/ui/widgets/postlist_item.dart';
 import 'package:provider/provider.dart';
 
 

@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/models/comment.dart';
-import 'package:mtpLiveSound/core/viewmodels/widgets/comments_model.dart';
-import 'package:mtpLiveSound/ui/pages/base_page.dart';
-import 'package:mtpLiveSound/ui/shared/app_colors.dart';
-import 'package:mtpLiveSound/ui/shared/ui_helpers.dart';
+import 'package:mtp_live_sound/core/models/comment.dart';
+import 'package:mtp_live_sound/core/viewmodels/widgets/comments_model.dart';
+import 'package:mtp_live_sound/ui/pages/base_page.dart';
+import 'package:mtp_live_sound/ui/shared/app_colors.dart';
+import 'package:mtp_live_sound/ui/shared/ui_helpers.dart';
 
 class Comments extends StatelessWidget {
   final String postId;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/services/auth_services.dart';
-import 'package:mtpLiveSound/ui/pages/home_page.dart';
+import 'package:mtp_live_sound/core/services/auth_services.dart';
+import 'package:mtp_live_sound/ui/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
 //Test OK

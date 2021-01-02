@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/models/post.dart';
-import 'package:mtpLiveSound/core/models/user.dart';
-import 'package:mtpLiveSound/core/services/api.dart';
-import 'package:mtpLiveSound/core/services/auth_services.dart';
-import 'package:mtpLiveSound/core/viewmodels/views/base_model.dart';
+import 'package:mtp_live_sound/core/models/post.dart';
+import 'package:mtp_live_sound/core/models/user.dart';
+import 'package:mtp_live_sound/core/services/api.dart';
+import 'package:mtp_live_sound/core/services/auth_services.dart';
+import 'package:mtp_live_sound/core/viewmodels/views/base_model.dart';
 
 class HomeModel extends BaseModel {
   final Auth _authService;

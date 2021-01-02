@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/models/post.dart';
+import 'package:mtp_live_sound/core/models/post.dart';
 
 class PostListItem extends StatelessWidget {
   final Post post;

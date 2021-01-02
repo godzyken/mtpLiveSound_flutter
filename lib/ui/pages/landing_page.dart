@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/ui/pages/home_page.dart';
-import 'package:mtpLiveSound/ui/pages/login_page.dart';
+import 'package:mtp_live_sound/ui/pages/home_page.dart';
+import 'package:mtp_live_sound/ui/pages/login_page.dart';
 
 
 class LandingPage extends StatelessWidget {

@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/models/post.dart';
-import 'package:mtpLiveSound/core/models/user.dart';
-import 'package:mtpLiveSound/ui/shared/app_colors.dart';
-import 'package:mtpLiveSound/ui/shared/text_styles.dart';
-import 'package:mtpLiveSound/ui/shared/ui_helpers.dart';
-import 'package:mtpLiveSound/ui/widgets/comments.dart';
+import 'package:mtp_live_sound/core/models/post.dart';
+import 'package:mtp_live_sound/core/models/user.dart';
+import 'package:mtp_live_sound/ui/shared/app_colors.dart';
+import 'package:mtp_live_sound/ui/shared/text_styles.dart';
+import 'package:mtp_live_sound/ui/shared/ui_helpers.dart';
+import 'package:mtp_live_sound/ui/widgets/comments.dart';
 import 'package:provider/provider.dart';
 
 

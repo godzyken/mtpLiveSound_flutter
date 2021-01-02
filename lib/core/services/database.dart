@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mtpLiveSound/core/models/comment.dart';
-import 'package:mtpLiveSound/core/models/post.dart';
-import 'package:mtpLiveSound/core/models/user.dart';
+import 'package:mtp_live_sound/core/models/comment.dart';
+import 'package:mtp_live_sound/core/models/post.dart';
+import 'package:mtp_live_sound/core/models/user.dart';
+
 
 import 'api.dart';
 

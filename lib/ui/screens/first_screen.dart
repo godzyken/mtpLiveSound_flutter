@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mtpLiveSound/core/services/api.dart';
+import 'package:mtp_live_sound/core/services/api.dart';
 
 class FirstScreen extends StatefulWidget {
   FirstScreen({Key key, this.title}) : super(key: key);

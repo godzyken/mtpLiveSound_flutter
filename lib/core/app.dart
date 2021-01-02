@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mtpLiveSound/core/constants/app_constants.dart';
-import 'package:mtpLiveSound/core/providers/provider_setup.dart';
-import 'package:mtpLiveSound/ui/router.dart'as root;
+import 'package:mtp_live_sound/core/constants/app_constants.dart';
+import 'package:mtp_live_sound/core/providers/provider_setup.dart';
+import 'package:mtp_live_sound/ui/router.dart'as root;
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
