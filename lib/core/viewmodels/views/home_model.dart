@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mtp_live_sound/core/models/post.dart';
-import 'package:mtp_live_sound/core/models/user.dart';
-import 'package:mtp_live_sound/core/services/api.dart';
-import 'package:mtp_live_sound/core/services/auth_services.dart';
+import 'package:mtp_live_sound/core/models/models.dart';
+import 'package:mtp_live_sound/core/services/services.dart';
 import 'package:mtp_live_sound/core/viewmodels/views/base_model.dart';
 
 class HomeModel extends BaseModel {
@@ -16,11 +14,11 @@ class HomeModel extends BaseModel {
   })  : _authService = authService,
         _api = api;
 
-  List<User> users;
+  List<UserModel> users;
 
-  Future<User> getUserById(String id) async {
+  Future<UserModel> getUserById(String id) async {
     var doc = await _authService.currentUser(id);
-    return User.fromJson(doc.data().id);
+    return UserModel.fromJson(doc.data().id);
   }
 
   Stream<QuerySnapshot> fetchUsersAsStream() {

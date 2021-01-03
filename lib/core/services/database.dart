@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mtp_live_sound/core/models/comment.dart';
-import 'package:mtp_live_sound/core/models/post.dart';
-import 'package:mtp_live_sound/core/models/user.dart';
+import 'package:mtp_live_sound/core/models/models.dart';
+
 
 
 import 'api.dart';
@@ -21,27 +20,27 @@ abstract class FirestoreDatabase {
   final String uid;
 
   // CRUD operations
-  Stream<List<User>> getUserList();
+  Stream<List<UserModel>> getUserList();
 
-  Future<void> createUser(User user);
+  Future<void> createUser(UserModel user);
 
-  Future<User> getUserOnFirebase(String id);
+  Future<UserModel> getUserOnFirebase(String id);
 
-  Stream<List<Post>> streamPosts(User user);
+  Stream<List<Post>> streamPosts(UserModel user);
 
-  Future<void> addPost(User user, dynamic post);
+  Future<void> addPost(UserModel user, dynamic post);
 
   Future<void> setPost(Post post);
 
   Future<void> deletePost(Post post);
 
-  Future<void> removePost(User user, String id);
+  Future<void> removePost(UserModel user, String id);
 
-  Stream<List<Comment>> commentsStream(User user);
+  Stream<List<Comment>> commentsStream(UserModel user);
 
-  Future<void> setComment(User user, dynamic comment);
+  Future<void> setComment(UserModel user, dynamic comment);
 
-  Future<void> deleteComment(User user, String id);
+  Future<void> deleteComment(UserModel user, String id);
 }
 
 class DatabaseService extends FirestoreDatabase {
@@ -56,7 +55,7 @@ class DatabaseService extends FirestoreDatabase {
   * @Create User
   */
   @override
-  Future<void> createUser(User user) async {
+  Future<void> createUser(UserModel user) async {
     return _db
         .collection('users')
         .doc(user.uid)
@@ -64,24 +63,24 @@ class DatabaseService extends FirestoreDatabase {
   }
 
   @override
-  Future<User> getUserOnFirebase(String id) async {
+  Future<UserModel> getUserOnFirebase(String id) async {
     var snap = await _db.collection('users').doc('id').get();
 
-    return User.fromJson(snap.data());
+    return UserModel.fromJson(snap.data());
   }
 
-  Stream<User> streamUser(String id) {
+  Stream<UserModel> streamUser(String id) {
     return _db
         .collection('users')
         .doc(id)
         .snapshots()
-        .map((snap) => User.fromJson(snap.data()));
+        .map((snap) => UserModel.fromJson(snap.data()));
   }
 
   @override
-  Stream<List<User>> getUserList() {
+  Stream<List<UserModel>> getUserList() {
     return _db.collection('user').snapshots().map((snapShot) =>
-        snapShot.docs.map((doc) => User.fromJson(doc.data())).toList());
+        snapShot.docs.map((doc) => UserModel.fromJson(doc.data())).toList());
   }
 
   Stream<QuerySnapshot> get posts {
@@ -92,12 +91,12 @@ class DatabaseService extends FirestoreDatabase {
   * @Create UserPost / UserComment
   */
   @override
-  Future<void> addPost(User user, dynamic post) async {
+  Future<void> addPost(UserModel user, dynamic post) async {
     return _db.collection('users').doc(user.uid).collection('posts').add(post);
   }
 
   @override
-  Stream<List<Post>> streamPosts(User user) {
+  Stream<List<Post>> streamPosts(UserModel user) {
     var ref = _db.collection('users').doc(user.uid).collection('posts');
 
     return ref.snapshots().map((list) =>
@@ -115,7 +114,7 @@ class DatabaseService extends FirestoreDatabase {
   }
 
   @override
-  Future<void> removePost(User user, String id) async {
+  Future<void> removePost(UserModel user, String id) async {
     return _db
         .collection('users')
         .doc(user.uid)
@@ -130,7 +129,7 @@ class DatabaseService extends FirestoreDatabase {
   }
 
   @override
-  Future<void> setComment(User user, dynamic comment) async {
+  Future<void> setComment(UserModel user, dynamic comment) async {
     return _db
         .collection('users')
         .doc(user.uid)
@@ -139,14 +138,14 @@ class DatabaseService extends FirestoreDatabase {
   }
 
   @override
-  Stream<List<Comment>> commentsStream(User user) {
+  Stream<List<Comment>> commentsStream(UserModel user) {
     var ref = _db.collection('users').doc(user.uid).collection('comments');
     return ref.snapshots().map(
         (list) => list.docs.map((doc) => Comment.fromSnapshot(doc)).toList());
   }
 
   @override
-  Future<void> deleteComment(User user, String id) async {
+  Future<void> deleteComment(UserModel user, String id) async {
     return _db
         .collection('users')
         .doc(user.uid)

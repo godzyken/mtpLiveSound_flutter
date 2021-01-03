@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mtp_live_sound/core/constants/app_constants.dart';
 import 'package:mtp_live_sound/core/viewmodels/widgets/posts_model.dart';
-import 'package:mtp_live_sound/ui/pages/base_page.dart';
-import 'package:mtp_live_sound/ui/widgets/postlist_item.dart';
+import 'package:mtp_live_sound/ui/pages/pages.dart';
+import 'package:mtp_live_sound/ui/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 
@@ -23,11 +23,11 @@ class Posts extends StatelessWidget {
                 itemBuilder: (context, i) => PostListItem(
                   post: model.posts[i],
                   onTap: () {
-                    Navigator.pushNamed(
+                  /*  Navigator.pushNamed(
                       context,
                       RoutePaths.Post,
                       arguments: model.posts[i],
-                    );
+                    );*/
                   },
                 ),
               ));

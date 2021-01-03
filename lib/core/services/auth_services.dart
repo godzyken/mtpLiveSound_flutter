@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mtp_live_sound/core/models/user.dart' as user;
+import 'package:mtp_live_sound/core/models/models.dart' as user;
 
 abstract class AuthBase {
   Future<auth.User> getCurrentUser();
@@ -44,7 +44,7 @@ class Auth implements AuthBase {
   String imageUrl;
   var currentUser;
 
-  user.User get _currentUser => currentUser;
+  user.UserModel get _currentUser => currentUser;
 
   Future createUser({
     String displayName,

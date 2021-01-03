@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mtp_live_sound/core/services/auth_services.dart';
-import 'package:mtp_live_sound/core/services/api.dart';
+import 'package:mtp_live_sound/core/services/services.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class UserModel {
   final String displayName;
   final String email;
   final String photoURL;
@@ -8,7 +8,7 @@ class User {
   final String userRole;
   final DocumentReference reference;
 
-  User({this.displayName,
+  UserModel({this.displayName,
     this.email,
     this.photoURL,
     this.uid,
@@ -16,7 +16,7 @@ class User {
     this.reference});
 
 
-  User.fromJson(Map<String, dynamic> parsedJson)
+  UserModel.fromJson(Map<String, dynamic> parsedJson)
       : displayName = parsedJson['displayName'],
         email = parsedJson['email'],
         photoURL = parsedJson['photoURL'],
@@ -24,13 +24,33 @@ class User {
         userRole = parsedJson['userRole'],
         reference = parsedJson['reference'];
 
+  factory UserModel.fromMap(Map data) {
+    return UserModel(
+      uid: data['uid'],
+      email: data['email'] ?? '',
+      displayName: data['displayName'] ?? '',
+      photoURL: data['photoURL'] ?? '',
+      reference: data['reference'] ?? '',
+      userRole: data['userRole'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() =>
+      {
+        "uid": uid,
+        "email": email,
+        "displayName": displayName,
+        "photoURL": photoURL,
+        "reference": reference,
+        "userRole": userRole,
+      };
 
   @override
-  String toString() => "User<$displayName:$email:$photoURL:$userRole:$uid>";
+  String toString() => "User<$displayName:$email:$photoURL:$reference:$userRole:$uid>";
 }
 
 class Profile {
-  User user;
+  UserModel user;
   final String idProfile;
   final String firstName;
   final String lastName;
